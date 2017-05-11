@@ -10,7 +10,7 @@
 	
 	TableExecute tableExecute = new TableExecute(tableName);
 	
-	if(!tableName.equals("")){
+	if(!UtilsFunction.isEmpty(tableName)){
 		tableExecute.getConnection();
 		columns = tableExecute.getColumns();
 	}

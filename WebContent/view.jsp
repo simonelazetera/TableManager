@@ -9,7 +9,7 @@
 
 	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
 	
-	if (tableName.equals("")){	
+	if (UtilsFunction.isEmpty(tableName)){	
 %>	
 		<div class="col-xs-10 top15">
 			<h1>

@@ -8,7 +8,7 @@
 <div class="col-xs-6 top15 inline-flex">
 
 <%
-	if (!selectedTable.equals("")){ %>
+	if (!UtilsFunction.isEmpty(selectedTable)){ %>
 		<form action="view.jsp" method="post" >
 			<input type="submit" id="tableName" name="tableName" value="<%=selectedTable %>" class="width-auto"/>
 		</form>
