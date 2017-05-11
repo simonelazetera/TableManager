@@ -47,7 +47,7 @@
 				<td><%=value.get(j) %></td>
 			<% } %>
 				<td>
-					<form action="edit.jsp" method="POST">
+					<form action="editrow.jsp" method="POST">
 						<input type="text" id="idEdit" name="idEdit" class="hidden" value="<%=value.get((columns.size()*i)-columns.size()) %>" />
 						<input type="submit" value="edit" class="editTable">
 					</form>
