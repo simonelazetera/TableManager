@@ -151,7 +151,6 @@ public class TableExecute {
 	    	}
 	    
 	    sql += ")";
-	    System.out.println(sql);
 		ps = myConn.prepareStatement(sql);
 		ps.executeUpdate();
 	}
