@@ -1,5 +1,4 @@
 <%@ include file="top.jsp" %>
-<%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
 <title>Table Manager - Added row</title>
 
