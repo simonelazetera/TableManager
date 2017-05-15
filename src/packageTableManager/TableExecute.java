@@ -77,6 +77,52 @@ public class TableExecute {
 		return count;
 	}
 	
+	public String getPrimaryKey() throws SQLException{
+		meta = myConn.getMetaData();
+		myRs = meta.getPrimaryKeys(null, null, tableName);
+	    while (myRs.next()) {
+	      pKey = myRs.getString("COLUMN_NAME");
+	    }
+		return pKey;
+	}
+	
+	public List<String> getValueByPKey(String idEdit) throws SQLException{
+		valueByPKey = new ArrayList<String>();
+		meta = myConn.getMetaData();
+		res = meta.getColumns(null, null, tableName, null);
+		String sql = "SELECT * FROM " + tableName + " WHERE " + getPrimaryKey() + " = '"  + idEdit + "'";
+		myRs = myStmt.executeQuery(sql);
+		while (myRs.next()) {
+			while (res.next()){ 
+				valueByPKey.add(myRs.getString(res.getString("COLUMN_NAME")));
+			}
+		}
+		return valueByPKey;
+	}
+	
+	public void updateRow(Enumeration<String> enu) throws SQLException{
+	    int i = 0;
+		String sql = "UPDATE " + tableName + " SET ";
+		
+	    while (enu.hasMoreElements()) {
+	        String parameterName = (String) enu.nextElement();
+	        String parameterValue = request.getParameter(parameterName);
+	        
+	        if (parameterValue != idEdit && parameterValue != tableName){
+		        if(i == 0){
+		        	sql += parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");
+				}else{
+					sql +=", " + parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
+				}
+				i++;
+				}
+	    	}
+	    
+		sql +=  " WHERE " + getPrimaryKey() + " = " + "'" + idEdit + "'";
+		System.out.println(sql);
+		ps = myConn.prepareStatement(sql);
+		ps.executeUpdate();
+	}
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		TableExecute ut = new TableExecute("city");
 		
