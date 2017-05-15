@@ -3,6 +3,9 @@ package packageTableManager;
 import java.sql.*;
 import java.util.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServlet;
+
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
