@@ -123,6 +123,22 @@ public class TableExecute {
 		ps = myConn.prepareStatement(sql);
 		ps.executeUpdate();
 	}
+	
+	public int numPrimaryKey() throws SQLException{
+		dbdata = myConn.getMetaData();
+		myRs = dbdata.getPrimaryKeys(null, null, tableName);
+		while (myRs.next()){
+			numKey++;
+		}
+		return numKey;
+	}
+	
+	public void closeConnection() throws SQLException{
+		myRs.close();
+		myStmt.close();
+		myConn.close();
+	}
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		TableExecute ut = new TableExecute("city");
 		
