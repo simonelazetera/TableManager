@@ -116,15 +116,39 @@ public class TableExecute {
 	        
 	        if (parameterValue != request.getParameter("idEdit") && parameterValue != tableName){
 		        if(i == 0){
-		        	sql += parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");
-				}else{
-					sql +=", " + parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
-				}
-				i++;
-				}
+				sql += parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");
+			}else{
+				sql +=", " + parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
+			}
+			i++;
+			}
 	    	}
 	    
 		sql +=  " WHERE " + getPrimaryKey() + " = " + "'" + idEdit + "'";
+		ps = myConn.prepareStatement(sql);
+		ps.executeUpdate();
+	}
+	
+	public void addRow(Enumeration<String> enu, ServletRequest request) throws SQLException{
+	    int i = 0;
+		String sql = "INSERT INTO " + tableName + " VALUES (";
+		
+	    while (enu.hasMoreElements()) {
+	        String parameterName = (String) enu.nextElement();
+	        String parameterValue = request.getParameter(parameterName);
+	        
+	        if (parameterValue != tableName){
+			if(i == 0){
+		        	sql += (parameterValue == "" ? null : "'" + parameterValue + "'");
+			}else{
+				sql +=", " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
+			}
+			i++;
+			}
+	    	}
+	    
+	    sql += ")";
+	    System.out.println(sql);
 		ps = myConn.prepareStatement(sql);
 		ps.executeUpdate();
 	}
