@@ -36,6 +36,14 @@ public class TableExecute {
 		this.tableName = tableName;
 	}
 	
+	public void setIdEdit(String idEdit) {
+		this.idEdit = idEdit;
+	}
+
+	public void setEnu(Enumeration<String> enu) {
+		this.enu = enu;
+	}
+	
 	public void getConnection() throws ClassNotFoundException, SQLException{
 		Class.forName("com.mysql.jdbc.Driver");
 		myConn = DriverManager.getConnection(dbUrl, user, pass);
