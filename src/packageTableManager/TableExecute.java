@@ -10,12 +10,19 @@ public class TableExecute {
 
 	private static List<String> columns;
 	private static List<String> value;
+	private static List<String> valueByPKey;
 	private String tableName;
+	private String pKey;
+	private String idEdit;
+	private Enumeration<String> enu;
 	
 	private Connection myConn = null;
 	private Statement myStmt = null;
 	private ResultSet myRs = null ;
+	private ResultSet res = null ;
 	private ResultSetMetaData data = null;
+	private DatabaseMetaData meta = null;
+	private PreparedStatement ps = null;
 	
 	private String dbUrl = "jdbc:mysql://localhost:3306/world";
 	private String user = "root";
