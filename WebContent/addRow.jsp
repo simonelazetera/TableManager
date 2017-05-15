@@ -15,9 +15,7 @@
 	TableExecute tableExecute = new TableExecute(tableName);
 	tableExecute.getConnection();
 
-	try{	
-		String pkey = "";
-	    pkey = tableExecute.getPrimaryKey();	    
+	try{		    
 		columns = tableExecute.getColumns(); 
 		
 		for(int i = 0; i < columns.size(); i++) {
