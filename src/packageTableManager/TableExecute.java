@@ -13,8 +13,6 @@ public class TableExecute {
 	private static List<String> valueByPKey;
 	private String tableName;
 	private String pKey;
-	private String idEdit;
-	private Enumeration<String> enu;
 	
 	private Connection myConn = null;
 	private Statement myStmt = null;
@@ -34,14 +32,6 @@ public class TableExecute {
 	
 	public TableExecute(String tableName) {
 		this.tableName = tableName;
-	}
-	
-	public void setIdEdit(String idEdit) {
-		this.idEdit = idEdit;
-	}
-
-	public void setEnu(Enumeration<String> enu) {
-		this.enu = enu;
 	}
 	
 	public void getConnection() throws ClassNotFoundException, SQLException{
@@ -116,7 +106,7 @@ public class TableExecute {
 		return valueByPKey;
 	}
 	
-	public void updateRow(Enumeration<String> enu) throws SQLException{
+	public void updateRow(Enumeration<String> enu, String idEdit, ServletRequest request) throws SQLException{
 	    int i = 0;
 		String sql = "UPDATE " + tableName + " SET ";
 		
@@ -124,7 +114,7 @@ public class TableExecute {
 	        String parameterName = (String) enu.nextElement();
 	        String parameterValue = request.getParameter(parameterName);
 	        
-	        if (parameterValue != idEdit && parameterValue != tableName){
+	        if (parameterValue != request.getParameter("idEdit") && parameterValue != tableName){
 		        if(i == 0){
 		        	sql += parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");
 				}else{
@@ -135,7 +125,6 @@ public class TableExecute {
 	    	}
 	    
 		sql +=  " WHERE " + getPrimaryKey() + " = " + "'" + idEdit + "'";
-		System.out.println(sql);
 		ps = myConn.prepareStatement(sql);
 		ps.executeUpdate();
 	}
