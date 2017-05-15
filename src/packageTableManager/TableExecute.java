@@ -133,8 +133,8 @@ public class TableExecute {
 	}
 	
 	public int numPrimaryKey() throws SQLException{
-		dbdata = myConn.getMetaData();
-		myRs = dbdata.getPrimaryKeys(null, null, tableName);
+		meta = myConn.getMetaData();
+		myRs = meta.getPrimaryKeys(null, null, tableName);
 		while (myRs.next()){
 			numKey++;
 		}
