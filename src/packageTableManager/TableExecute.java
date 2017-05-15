@@ -29,6 +29,7 @@ public class TableExecute {
 	private String pass = "root";
 	
 	public static int count = 0;
+	public static int numKey = 0;
 	
 	
 	public TableExecute(String tableName) {
