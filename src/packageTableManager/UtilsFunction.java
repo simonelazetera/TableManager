@@ -8,13 +8,23 @@ public class UtilsFunction {
 		return v1;
 	}
 	
-	public static void main(String[] args) {
-		/*test function notNull*/
-		System.out.println(UtilsFunction.notNull(" ", "prima nulla o senza caratteri"));
-		
+	public static boolean isEmpty(String v) {
+		if(v==null || v.isEmpty() || v.trim().isEmpty()){
+			return true;
+		}
+		return false;
 	}
 	
-	public static boolean isEmpty(String v) {
-		return v==null || "".equals(v);
+	public static boolean isEmpty(String [] v) {
+		if(v==null){
+			return true;
+		}
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		
+		System.out.println(UtilsFunction.notNull(" ", "prima nulla o senza caratteri"));
+		System.out.println(UtilsFunction.isEmpty(""));
 	}
 }
