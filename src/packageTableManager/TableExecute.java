@@ -170,6 +170,34 @@ public class TableExecute {
 		myConn.close();
 	}
 	
+	public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException {
+		Properties props = new Properties();
+		int index = 0;
+		props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
+		
+		if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
+			String [] arr = props.getProperty("table-list").split(",");
+			
+			for(String val:arr){
+				if(!val.equals(tableName)){
+					props.setProperty("table-list", props.getProperty("table-list")+","+tableName);
+				}
+			}
+		}else{
+			props.setProperty("table-list", tableName);
+		}
+		
+		for(String valore:propcolumns){
+        	props.setProperty("table-"+tableName+"-columns",
+        					((index == 0) ? valore : props.getProperty("table-"+tableName+"-columns")+","+valore));
+       		props.setProperty("table-"+tableName+"-"+propcolumns.get(index), propvalue.get(index));
+        	index++;
+        }
+		
+		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
+        props.store(out, "properties tables");
+	}
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		TableExecute ut = new TableExecute("city");
 		
