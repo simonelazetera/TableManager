@@ -28,7 +28,7 @@
 <% if(!tableName.equals("")){ %>
 <div class="col-xs-12 top20">
 <% for (int i=0;i<columns.size();i++){ %>
-	<p><%=i+1 %>° column: <%=columns.get(i) %>
+	<p><%=i+1 %>Â° column: <%=columns.get(i) %>
 		<select class="left15">
 			<option>test</option>
 		</select>
@@ -46,8 +46,7 @@
 
 <% } %>
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<%@ include file="js.jsp" %>
 <script type="text/javascript">
 	$(document).ready(function(){
 		
