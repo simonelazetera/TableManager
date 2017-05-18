@@ -17,6 +17,7 @@ public class TableExecute {
 	private static List<String> valueByPKey;
 	private String tableName;
 	private String pKey;
+	private static List<String> type;
 	
 	private Connection myConn = null;
 	private Statement myStmt = null;
@@ -203,6 +204,18 @@ public class TableExecute {
 		
 		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
         	props.store(out, "properties tables");
+	}
+	
+	public List<String> getType(List<String> propcolumns) throws FileNotFoundException, IOException{
+		Properties props = new Properties();
+		type = new ArrayList<String>();
+		props.load(new FileInputStream("C:/Users/aprivite/workspace/TableManager/"+fileName ));
+		if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
+			for(int i = 0; i < propcolumns.size(); i++){
+	        		type.add(props.getProperty("table-"+tableName+"-"+propcolumns.get(i)));
+	        	}
+		}
+		return type;
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
