@@ -33,6 +33,8 @@ public class TableExecute {
 	public static int count = 0;
 	public static int numKey = 0;
 	
+	private File fileName = new File("properties.properties");
+	
 	
 	public TableExecute(String tableName) {
 		this.tableName = tableName;
@@ -172,6 +174,10 @@ public class TableExecute {
 	}
 	
 	public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException {
+		if(!fileName.exists()){
+			fileName.createNewFile();
+		}
+		
 		Properties props = new Properties();
 		int index = 0;
 		props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
@@ -189,14 +195,14 @@ public class TableExecute {
 		}
 		
 		for(String valore:propcolumns){
-        	props.setProperty("table-"+tableName+"-columns",
+        		props.setProperty("table-"+tableName+"-columns",
         					((index == 0) ? valore : props.getProperty("table-"+tableName+"-columns")+","+valore));
-       		props.setProperty("table-"+tableName+"-"+propcolumns.get(index), propvalue.get(index));
-        	index++;
-        }
+       			props.setProperty("table-"+tableName+"-"+propcolumns.get(index), propvalue.get(index));
+        		index++;
+        	}
 		
 		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
-        props.store(out, "properties tables");
+        	props.store(out, "properties tables");
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
