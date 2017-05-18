@@ -4,16 +4,18 @@
 </head>
 <body>
 	<h1 class="pad-left15">Add Row</h1>
-	<form id="editRow" action="add.jsp" method="post" class="pad-left15">
+	<form id="addRow" action="add.jsp" method="post" class="pad-left15">
 <%
 	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
 	
 	List<String> columns;
+	List<String> typeColumns;
 	
 	TableExecute tableExecute = new TableExecute(tableName);
 	tableExecute.getConnection();
-
-	try{		    
+	
+	
+	try{	    
 		columns = tableExecute.getColumns(); 
 		
 		for(int i = 0; i < columns.size(); i++) {
@@ -27,7 +29,6 @@
 		e.printStackTrace();
 	}
 	
-	tableExecute.closeConnection();
 %>
 		<input type="hidden" name="tableName" value="<%=tableName %>" />
 		<input type="submit" value="Add row"/>	
@@ -38,5 +39,50 @@
 			<input type="submit" value="Go back to the table" />
 		</form>
 	</div>
+	
+	
+<%@ include file="js.jsp" %>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		jQuery.validator.addMethod("accept", function(value, element, param) {
+			  return value.match(new RegExp("." + param + "$"));
+		});
+		
+		$("#addRow").validate({
+		    rules: {
+		   	<%
+		   	columns = tableExecute.getColumns();
+		   	typeColumns = tableExecute.getType(columns);
+			   	for(int i = 0; i < columns.size(); i++) {
+			   		if (typeColumns.get(i).equals("string")){%>
+			   			<%=columns.get(i) %>: { accept: "[a-zA-Z]+" },
+			   		<%} else { %>
+			    		<%=columns.get(i) %>: {
+			   			    number: true,
+			   			},
+					<%}
+				}%>
+		    },
+		    messages: {
+		    	<%
+		    	columns = tableExecute.getColumns();
+		    	typeColumns = tableExecute.getType(columns);
+		    	for(int i = 0; i < columns.size(); i++) {
+		    		if (typeColumns.get(i).equals("string")){%>
+		    			<%=columns.get(i) %>: "only character",
+					<%} else { %>
+						<%=columns.get(i) %>: "only numbers",
+					<%}
+	    		}%>
+		    },
+		    submitHandler: function(form) {
+		      form.submit();
+		    }
+		  });
+	});
+</script>
+<%tableExecute.closeConnection(); %>
 </body>
 </html>

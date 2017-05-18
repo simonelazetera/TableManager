@@ -11,6 +11,7 @@
 	
 	List<String> columns;
 	List<String> valueByPKey;
+	List<String> typeColumns;
 	
 	TableExecute tableExecute = new TableExecute(tableName);
 	tableExecute.getConnection();
@@ -20,7 +21,7 @@
 	    pkey = tableExecute.getPrimaryKey();	    
 		columns = tableExecute.getColumns();
 		valueByPKey = tableExecute.getValueByPKey(idEdit); 
-		
+
 		for(int i = 0; i < columns.size(); i++) {
 			if(!columns.get(i).equals(pkey)) {
 %>		
@@ -34,7 +35,6 @@
 		e.printStackTrace();
 	}
 	
-	tableExecute.closeConnection();
 %>
 		<input type="hidden" name="idEdit" value="<%=idEdit %>" />
 		<input type="hidden" name="tableName" value="<%=tableName %>" />
@@ -47,5 +47,47 @@
 			<input type="submit" value="Go back to the table" />
 		</form>
 	</div>
+	
+<%@ include file="js.jsp" %>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		jQuery.validator.addMethod("accept", function(value, element, param) {
+			  return value.match(new RegExp("." + param + "$"));
+		});
+		$("#editRow").validate({
+		    rules: {
+		   	<%
+		   	columns = tableExecute.getColumns();
+		   	typeColumns = tableExecute.getType(columns);
+			   	for(int i = 0; i < columns.size(); i++) {
+			   		if (typeColumns.get(i).equals("string")){%>
+			   			<%=columns.get(i) %>: { accept: "[a-zA-Z]+" },
+			   		<%} else { %>
+			    		<%=columns.get(i) %>: {
+			   			    number: true,
+			   			},
+					<%}
+				}%>
+		    },
+		    messages: {
+		    	<%
+		    	columns = tableExecute.getColumns();
+		    	typeColumns = tableExecute.getType(columns);
+		    	for(int i = 0; i < columns.size(); i++) {
+		    		if (typeColumns.get(i).equals("string")){%>
+		    			<%=columns.get(i) %>: "only character",
+					<%} else { %>
+						<%=columns.get(i) %>: "only numbers",
+					<%}
+	    		}%>
+		    },
+		    submitHandler: function(form) {
+		      form.submit();
+		    }
+		  });
+	});
+</script>
+<%tableExecute.closeConnection(); %>
 </body>
 </html>
