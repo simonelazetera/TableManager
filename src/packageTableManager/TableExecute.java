@@ -174,14 +174,13 @@ public class TableExecute {
 		myConn.close();
 	}
 	
-	public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException {
-		if(!fileName.exists()){
-			fileName.createNewFile();
-		}
-		
+	public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
 		int index = 0;
-		props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
+		
+		if(fileName.exists()){
+			props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
+		}
 		
 		if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
 			String [] arr = props.getProperty("table-list").split(",");
@@ -196,11 +195,11 @@ public class TableExecute {
 		}
 		
 		for(String valore:propcolumns){
-        		props.setProperty("table-"+tableName+"-columns",
+        	props.setProperty("table-"+tableName+"-columns",
         					((index == 0) ? valore : props.getProperty("table-"+tableName+"-columns")+","+valore));
-       			props.setProperty("table-"+tableName+"-"+propcolumns.get(index), propvalue.get(index));
-        		index++;
-        	}
+       		props.setProperty("table-"+tableName+"-"+propcolumns.get(index), propvalue.get(index));
+        	index++;
+        }
 		
 		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
         	props.store(out, "properties tables");
