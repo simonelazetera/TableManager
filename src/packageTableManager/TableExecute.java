@@ -169,9 +169,15 @@ public class TableExecute {
 	}
 	
 	public void closeConnection() throws SQLException{
-		myRs.close();
-		myStmt.close();
-		myConn.close();
+		if(myRs!=null){
+			myRs.close();
+		}
+		if(myStmt!=null){
+			myStmt.close();
+		}
+		if(myConn!=null){
+			myConn.close();
+		}
 	}
 	
 	public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException{
