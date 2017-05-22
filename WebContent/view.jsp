@@ -1,3 +1,4 @@
+<%@page import="javax.swing.text.TabExpander"%>
 <%@ include file="top.jsp" %>
 <title>Table Manager - view table</title>
 </head>
@@ -5,11 +6,10 @@
 
 <%
 	List<String> columns;
-	List<String> value;
 
 	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
 	
-	if (tableName.equals("")){	
+	if (UtilsFunction.isEmpty(tableName)){	
 %>	
 		<div class="col-xs-10 top15">
 			<h1>
@@ -28,34 +28,35 @@
 		
 		tableExecute.getConnection();
 		columns = tableExecute.getColumns();
-		value = tableExecute.getValue();
 %>
-<div class="col-xs-6 top20">
-	<form action="addRow.jsp" method="POST">
-		<input type="hidden" name="tableName" value="<%=tableName %>" />
-		<input type="submit" value="Add row" />
-	</form>
-</div>
 
 <div class="col-xs-12 top15">
 	<table>
 		<tr>
-		<% for(int i = 0; i < columns.size(); i++) {
-		%>
+		<% for(int i = 0; i < columns.size(); i++) {%>
 			<th><%=columns.get(i) %></th>
 		<% } %>
 			<th>editable column</th>
 		</tr>
 		
-		<%for (int i = 1; i <= tableExecute.numRow(); i++){ %>
+		
+		<%for (List<String> row:tableExecute.getAllRows()) { %>
 		<tr>
-			<%for (int j = (columns.size()*i)-columns.size(); j < columns.size()*i; j++){ %>
-				<td><%=value.get(j) %></td>
+			<%for (String col:row) { %>
+				<td><%=col%></td>
 			<% } %>
 				<td>
 					<form action="editrow.jsp" method="POST">
-						<input type="text" id="idEdit" name="idEdit" class="hidden" value="<%=value.get((columns.size()*i)-columns.size()) %>" />
-						<input type="hidden" name="tableName" value="<%=tableName %>">
+						<% if(tableExecute.numPrimaryKey() == 1) { %>
+							<input id="idEdit" name="idEdit" class="hidden" value="<%=row.get(0) %>" />
+						<% }else{
+								for(int index=0;index<tableExecute.numPrimaryKey();index++){ 
+						%>
+									<input id="idEdit<%=index %>" name="idEdit<%=index %>" class="hidden" value="" />
+						<%		} 
+							} 
+						%>
+						<input id="tableName" name=tableName class="hidden" value="<%=tableName %>" />
 						<input type="submit" value="edit" class="editTable">
 					</form>
 				</td>
@@ -64,7 +65,9 @@
 	</table>
 </div>
 
-<% 
+<%
+	tableExecute.closeConnection();
+
 	}
 %>
 
