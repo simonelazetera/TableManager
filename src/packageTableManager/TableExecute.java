@@ -30,8 +30,8 @@ public class TableExecute {
 	private String user = "root";
 	private String pass = "root";
 	
-	public static int count = 0;
-	public static int numKey = 0;
+	public static int count;
+	public static int numKey;
 	
 	private File fileName = new File("properties.properties");
 	
@@ -81,6 +81,7 @@ public class TableExecute {
 	}
 	
 	public int numRow() throws SQLException{
+		count = 0;
 		String sql = "select * from " + tableName;
 		myRs = myStmt.executeQuery(sql);
 		while (myRs.next()) {
@@ -159,6 +160,7 @@ public class TableExecute {
 	}
 	
 	public int numPrimaryKey() throws SQLException{
+		numKey = 0;
 		meta = myConn.getMetaData();
 		myRs = meta.getPrimaryKeys(null, null, tableName);
 		while (myRs.next()){
