@@ -1,4 +1,3 @@
-<%@page import="javax.swing.text.TabExpander"%>
 <%@ include file="top.jsp" %>
 <title>Table Manager - view table</title>
 </head>
