@@ -5,27 +5,36 @@
 <body>
 <%
 String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+String idEdit = request.getParameter("idEdit");
 
 TableExecute tableExecute = new TableExecute(tableName);
 tableExecute.getConnection();
+int rowsAffected = 0; 
+
 try{
 	Enumeration<String> enu = request.getParameterNames();
-	tableExecute.addRow(enu, request);
-
+	rowsAffected = tableExecute.addRow(enu, request);
 }catch (Exception e) {
 	e.printStackTrace();
 }
-tableExecute.closeConnection();
 %>
-
-	<h1 class="pad-left15">Added row</h1>
-	
 	<div class="col-xs-6 top20">
-		<form action="view.jsp" method="POST">
+	<%if (rowsAffected > 0){ %>
+		<form id="add" action="addSuccess.jsp" method="POST">
 			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
-			<input type="submit" value="Go back to the table" />
 		</form>
+	<%} else { %>
+		<form id="add" action="addError.jsp" method="POST">
+			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
+		</form>
+	<%} %>
 	</div>
-
+<%@ include file="js.jsp" %>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#add").submit();
+});
+</script>
+<%tableExecute.closeConnection();  %>
 </body>
 </html>
