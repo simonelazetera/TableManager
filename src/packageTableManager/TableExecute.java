@@ -222,6 +222,22 @@ public class TableExecute {
 		return type;
 	}
 	
+	public List<List<String>> getAllRows() throws SQLException{
+		List<List<String>> row = new ArrayList<List<String>>();
+		List<String> temp;
+		String sql = "select * from " + tableName;
+		myRs = myStmt.executeQuery(sql);
+		
+		while (myRs.next()) {
+				temp = new ArrayList<String>();
+			for (int i=1;i<=columns.size();i++){
+				temp.add(myRs.getString(i));
+			}
+			row.add(temp);
+		}
+		return row;
+	}
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		TableExecute ut = new TableExecute("city");
 		
