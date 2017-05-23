@@ -1089,3 +1089,10 @@ td, th{
 	width: 30px;
 	height: 30px;
 }
+
+.table-list{
+	border: none;
+    background-color: transparent;
+    color: blue;
+    text-decoration: underline;
+}
