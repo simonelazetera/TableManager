@@ -3,20 +3,35 @@
 </head>
 <body>
 
-<% String selectedTable = UtilsFunction.notNull(request.getParameter("selectedTable"), ""); %>
+<% 
+	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+	TableExecute tableExecute = new TableExecute(tableName);
+	List<String> tableList;
+	
+	
+if(tableName.equals("")){
+%>
 
-<div class="col-xs-6 top15 inline-flex">
-
+<div class="col-xs-6 top15">
+	<button class="width-auto" onclick="window.location.href='config.jsp'">add table</button>
 <%
-	if (!UtilsFunction.isEmpty(selectedTable)){ %>
-		<form action="view.jsp" method="post" >
-			<input type="submit" id="tableName" name="tableName" value="<%=selectedTable %>" class="width-auto"/>
-		</form>
-<% } else { %>
+	if (tableExecute.readTable().size() != 0){ 
+		for (String tb:tableExecute.readTable()) { 
+%>
+			<form action="default.jsp" method="post" >
+				<input type="submit" id="tableName" name="tableName" value="<%=tb %>" class="width-auto table-list"/>
+			</form>
+<%	 		}
+	} else { 
+%>
 		<input type="text" value="no table selected" class="width-auto" disabled />
-<% } %>
-
-	<button class="left15 width-auto" onclick="window.location.href='config.jsp'">select table</button>
+<% 
+	} 
+}else{
+	response.setHeader("REFRESH","0;URL=view.jsp");
+}
+%>
+	
 </div>
 
 </body>
