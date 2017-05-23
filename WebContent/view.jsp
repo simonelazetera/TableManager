@@ -28,10 +28,15 @@
 		tableExecute.getConnection();
 		columns = tableExecute.getColumns();
 %>
-<div class="col-xs-6 top20">
+<div class="col-xs-3 col-sm-2s top20">
 	<form action="addRow.jsp" method="POST">
 		<input type="hidden" name="tableName" value="<%=tableName %>" />
 		<input type="submit" value="Add row" />
+	</form>
+</div>
+<div class="col-xs-6 top20">
+	<form action="default.jsp" method="POST">
+		<input type="submit" value="Go back to the home page" />
 	</form>
 </div>
 <div class="col-xs-12 top15">
