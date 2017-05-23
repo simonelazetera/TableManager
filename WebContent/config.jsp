@@ -5,6 +5,7 @@
 
 <%
 	List<String> columns = null;
+	List<String> type = null;
 	
 	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
 	
@@ -13,6 +14,7 @@
 	if(!UtilsFunction.isEmpty(tableName)){
 		tableExecute.getConnection();
 		columns = tableExecute.getColumns();
+		type = tableExecute.getType(tableName);
 	}
 %>
 
@@ -27,24 +29,16 @@
 
 <% if(!UtilsFunction.isEmpty(tableName)){ %>
 <div class="col-xs-12 top20">
-<form action="write-properties.jsp" method="POST">
+<form method="post" action="write-properties.jsp">
 <% for (int i=0;i<columns.size();i++){ %>
-	<p><%=i+1 %>° column: <%=columns.get(i) %>
-		<select class="left15" name="<%=columns.get(i) %>">
-			<option>num</option>
-			<option>string</option>
-		</select>
-	</p>
+	<p><%=i+1 %>Â° column: <%=columns.get(i) %>, type: <%=type.get(i) %></p>
 <% } %>
 
-
-		<input type="text" id="selectedTable" name="selectedTable" class="hidden" value="<%=tableName %>"/>
-		<input type="submit" value="save" />
-	</form>
+<input type="submit" value="Go back"/>
+</form>
 </div>
 
 <% }
-
 	if(!UtilsFunction.isEmpty(tableName)){
 		tableExecute.closeConnection();
 	}
