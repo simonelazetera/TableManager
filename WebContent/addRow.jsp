@@ -54,26 +54,26 @@
 		    rules: {
 		   	<%
 		   	columns = tableExecute.getColumns();
-		   	typeColumns = tableExecute.getType(columns);
+		   	typeColumns = tableExecute.getType(tableName);
 			   	for(int i = 0; i < columns.size(); i++) {
-			   		if (typeColumns.get(i).equals("string")){%>
-			   			<%=columns.get(i) %>: { accept: "[a-zA-Z]+" },
-			   		<%} else { %>
-			    		<%=columns.get(i) %>: {
+			   		if (typeColumns.get(i).equals("INT")){%>
+				   		<%=columns.get(i) %>: {
 			   			    number: true,
 			   			},
+			   		<%} else { %>
+			   			<%=columns.get(i) %>: { accept: "[a-zA-Z]+" },
 					<%}
 				}%>
 		    },
 		    messages: {
 		    	<%
 		    	columns = tableExecute.getColumns();
-		    	typeColumns = tableExecute.getType(columns);
+		    	typeColumns = tableExecute.getType(tableName);
 		    	for(int i = 0; i < columns.size(); i++) {
-		    		if (typeColumns.get(i).equals("string")){%>
-		    			<%=columns.get(i) %>: "only character",
+		    		if (typeColumns.get(i).equals("INT")){%>
+		    			<%=columns.get(i) %>: "only numbers",
 					<%} else { %>
-						<%=columns.get(i) %>: "only numbers",
+						<%=columns.get(i) %>: "only character",
 					<%}
 	    		}%>
 		    },
