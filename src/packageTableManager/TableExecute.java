@@ -212,17 +212,17 @@ public class TableExecute {
         	props.store(out, "properties tables");
 	}
 	
-	public List<String> getType(List<String> propcolumns) throws FileNotFoundException, IOException{
-		Properties props = new Properties();
+	public List<String> getType(String tableName) throws FileNotFoundException, IOException, SQLException{
 		type = new ArrayList<String>();
-		props.load(new FileInputStream("C:/Users/aprivite/workspace/TableManager/"+fileName ));
-		if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
-			for(int i = 0; i < propcolumns.size(); i++){
-	        		type.add(props.getProperty("table-"+tableName+"-"+propcolumns.get(i)));
-	        	}
+		meta = myConn.getMetaData();
+		res = meta.getColumns(null, null, tableName, null);
+		
+		while(res.next()){
+			type.add(res.getString("TYPE_NAME"));
 		}
 		return type;
 	}
+	
 	
 	public List<List<String>> getAllRows() throws SQLException{
 		List<List<String>> row = new ArrayList<List<String>>();
