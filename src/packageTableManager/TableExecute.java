@@ -181,9 +181,9 @@ public class TableExecute {
 		}
 	}
 	
-	public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException{
+	/*public void writeProperties(List<String> propcolumns, List<String> propvalue) throws FileNotFoundException, IOException{
 		Properties props = new Properties();
-		//int index = 0;
+		int index = 0;
 		
 		if(fileName.exists()){
 			props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
@@ -201,15 +201,38 @@ public class TableExecute {
 			props.setProperty("table-list", tableName);
 		}
 		
-		/*for(String valore:propcolumns){
+		for(String valore:propcolumns){
         	props.setProperty("table-"+tableName+"-columns",
         					((index == 0) ? valore : props.getProperty("table-"+tableName+"-columns")+","+valore));
        		props.setProperty("table-"+tableName+"-"+propcolumns.get(index), propvalue.get(index));
         	index++;
-      		}*/
+        }
 		
 		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
-        	props.store(out, "properties tables");
+        props.store(out, "properties tables");
+	}*/
+	
+	public void writeProperties() throws FileNotFoundException, IOException{
+		Properties props = new Properties();
+		
+		if(fileName.exists()){
+			props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
+		}
+		
+		if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
+			String [] arr = props.getProperty("table-list").split(",");
+			
+			for(String val:arr){
+				if(!val.equals(tableName)){
+					props.setProperty("table-list", props.getProperty("table-list")+","+tableName);
+				}
+			}
+		}else{
+			props.setProperty("table-list", tableName);
+		}
+		
+		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
+        props.store(out, "properties tables");
 	}
 	
 	public List<String> getType(String tableName) throws FileNotFoundException, IOException, SQLException{
