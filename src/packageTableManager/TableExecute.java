@@ -265,9 +265,12 @@ public class TableExecute {
 	
 	public List<String> readTable() throws FileNotFoundException, IOException{
 		Properties props = new Properties();
+		String [] temp = {};
 		List<String> listTable = new ArrayList<String>();
 		props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName ));
-		String [] temp = props.getProperty("table-list").split(",");
+		if(!props.getProperty("table-list").equals("")){
+			temp = props.getProperty("table-list").split(",");
+		}
 		for(int i = 0; i < temp.length; i++){
 	       	listTable.add(temp[i].trim());
 	    }
