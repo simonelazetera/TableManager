@@ -27,7 +27,6 @@
 %>
 
 <form action="default.jsp" method="post" id="form-properties">
-	<input name="tableName" value="<%=tableName %>" class="hidden"/>
 </form>
 
 <%@ include file="js.jsp" %>

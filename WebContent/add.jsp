@@ -23,11 +23,9 @@ try{
 	<div class="col-xs-6 top20">
 	<%if (rowsAffected > 0){ %>
 		<form id="add" action="addSuccess.jsp" method="POST">
-			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
 		</form>
 	<%} else { %>
 		<form id="add" action="addError.jsp" method="POST">
-			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
 		</form>
 	<%} %>
 	</div>

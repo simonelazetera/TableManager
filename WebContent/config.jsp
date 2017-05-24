@@ -20,7 +20,6 @@
 
 <div class="col-xs-6 top15">
 	<form id="form-nameTable" method="POST">
-		<input type="text" id="tableName" name="tableName" value="<%=tableName %>" class="width-auto"/>
 		<div class="left15 width-auto button-tableName" id="button-tableName">
 			<button type="submit" class="width-full" onclick="getTable()">apply</button>
 		</div>

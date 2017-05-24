@@ -32,7 +32,6 @@
 %>
 <div class="col-xs-3 col-sm-2 top20">
 	<form action="addRow.jsp" method="POST">
-		<input type="hidden" name="tableName" value="<%=tableName %>" />
 		<input type="submit" value="Add row" />
 	</form>
 </div>

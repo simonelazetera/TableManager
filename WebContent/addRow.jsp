@@ -31,7 +31,6 @@
 	}
 	
 %>
-		<input type="hidden" name="tableName" value="<%=tableName %>" />
 		<input type="submit" value="Add row"/>	
 	</form>
 	

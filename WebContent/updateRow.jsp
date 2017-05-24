@@ -26,12 +26,10 @@ try{
 	<%if (rowsAffected > 0){ %>
 		<form id="update" action="updateSuccess.jsp" method="POST">
 			<input type="hidden" name="idEdit" value="<%=idEdit %>" />
-			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
 		</form>
 	<%} else { %>
 		<form id="update" action="updateError.jsp" method="POST">
 			<input type="hidden" name="idEdit" value="<%=idEdit %>" />
-			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
 		</form>
 	<%} %>
 	</div>

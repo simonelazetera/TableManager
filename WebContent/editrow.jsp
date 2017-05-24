@@ -38,13 +38,11 @@
 	
 %>
 		<input type="hidden" name="idEdit" value="<%=idEdit %>" />
-		<input type="hidden" name="tableName" value="<%=tableName %>" />
 		<input type="submit" value="Update row"/>	
 	</form>
 	
 	<div class="col-xs-6 top20">
 		<form action="view.jsp" method="POST">
-			<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
 			<input type="submit" value="Go back to the table" />
 		</form>
 	</div>

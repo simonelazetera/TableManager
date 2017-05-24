@@ -12,7 +12,6 @@ String idEdit = request.getParameter("idEdit");
 	<h1>Add error</h1>
 	<form action="addRow.jsp" method="POST">
 		<input type="hidden" name="idEdit" value="<%=idEdit %>" />
-		<input id="tableName" name="tableName" value="<%=tableName %>" class="hidden"/>
 		<input type="submit" value="Go to the form" />
 	</form>
 </div>
