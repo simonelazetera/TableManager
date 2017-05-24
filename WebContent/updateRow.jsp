@@ -4,9 +4,10 @@
 </head>
 <body>
 <%
-String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+request.getSession();
+String tableName = (String) session.getAttribute("TableName");
+TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
 String idEdit = request.getParameter("idEdit");
-TableExecute tableExecute = new TableExecute(tableName);
 tableExecute.getConnection();
 
 int rowsAffected = 0;

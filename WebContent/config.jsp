@@ -31,7 +31,7 @@
 <div class="col-xs-12 top20">
 <form method="post" action="write-properties.jsp">
 <% for (int i=0;i<columns.size();i++){ %>
-	<p><%=i+1 %>Â° column: <%=columns.get(i) %>, type: <%=type.get(i) %></p>
+	<p><%=i+1 %>° column: <%=columns.get(i) %>, type: <%=type.get(i) %></p>
 <% } %>
 
 <input type="submit" value="Go back"/>

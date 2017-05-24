@@ -4,8 +4,9 @@
 <body>
 
 <%	
-	String tableName = UtilsFunction.notNull(request.getParameter("selectedTable"), "");
-	TableExecute tableExecute = new TableExecute(tableName);	
+	request.getSession();
+	String tableName = (String) session.getAttribute("TableName");
+	TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
 
 	Enumeration<String> enuTemp = request.getParameterNames();
 	List<String> columns = new ArrayList<String>();
@@ -25,7 +26,7 @@
 	
 %>
 
-<form action="view.jsp" method="post" id="form-properties">
+<form action="default.jsp" method="post" id="form-properties">
 	<input name="tableName" value="<%=tableName %>" class="hidden"/>
 </form>
 

@@ -4,7 +4,8 @@
 </head>
 <body>
 <%
-String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+request.getSession();
+String tableName = (String) session.getAttribute("TableName");
 String idEdit = request.getParameter("idEdit");
 %>
 <div class="col-xs-6 top20">

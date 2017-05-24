@@ -6,7 +6,9 @@
 <%
 	List<String> columns;
 
-	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+	request.getSession();
+	String tableName = (String) session.getAttribute("TableName");
+	TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
 	
 	if (UtilsFunction.isEmpty(tableName)){	
 %>	
@@ -23,12 +25,12 @@
 		response.setHeader("REFRESH","5;URL=default.jsp");
 	}else{
 		
-		TableExecute tableExecute = new TableExecute(tableName);
+		//TableExecute tableExecute = new TableExecute(tableName);
 		
 		tableExecute.getConnection();
 		columns = tableExecute.getColumns();
 %>
-<div class="col-xs-3 col-sm-2s top20">
+<div class="col-xs-3 col-sm-2 top20">
 	<form action="addRow.jsp" method="POST">
 		<input type="hidden" name="tableName" value="<%=tableName %>" />
 		<input type="submit" value="Add row" />

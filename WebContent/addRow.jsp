@@ -6,12 +6,13 @@
 	<h1 class="pad-left15">Add Row</h1>
 	<form id="addRow" action="add.jsp" method="post" class="pad-left15">
 <%
-	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+	request.getSession();
+	String tableName = (String) session.getAttribute("TableName");
+	TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
 	
 	List<String> columns;
 	List<String> typeColumns;
 	
-	TableExecute tableExecute = new TableExecute(tableName);
 	tableExecute.getConnection();
 	
 	

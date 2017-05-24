@@ -7,13 +7,14 @@
 	<form id="editRow" action="updateRow.jsp" method="post" class="pad-left15">
 <%
 	String idEdit = request.getParameter("idEdit");
-	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+	request.getSession();
+	String tableName = (String) session.getAttribute("TableName");
+	TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
 	
 	List<String> columns;
 	List<String> valueByPKey;
 	List<String> typeColumns;
 	
-	TableExecute tableExecute = new TableExecute(tableName);
 	tableExecute.getConnection();
 
 	try{	

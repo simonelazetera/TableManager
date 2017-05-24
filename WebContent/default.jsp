@@ -4,10 +4,14 @@
 <body>
 
 <% 
+	
 	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
 	TableExecute tableExecute = new TableExecute(tableName);
 	List<String> tableList;
-	
+	if(!tableName.equals("")){
+		session.setAttribute("TableName", tableName);
+		session.setAttribute("TableExecute", tableExecute);
+	}
 	
 if(tableName.equals("")){
 %>
