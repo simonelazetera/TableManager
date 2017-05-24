@@ -34,6 +34,7 @@ public class TableExecute {
 	public static int numKey;
 	
 	private File fileName = new File("properties.properties");
+	Properties props = new Properties();
 	
 	
 	public TableExecute(String tableName) {
@@ -212,20 +213,23 @@ public class TableExecute {
         props.store(out, "properties tables");
 	}*/
 	
-	public void writeProperties() throws FileNotFoundException, IOException{
-		Properties props = new Properties();
-		
+	public void writeProperties() throws FileNotFoundException, IOException{		
 		if(fileName.exists()){
 			props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
 		}
-		
+
+		boolean equal = false;
 		if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
 			String [] arr = props.getProperty("table-list").split(",");
 			
-			for(String val:arr){
-				if(!val.equals(tableName)){
-					props.setProperty("table-list", props.getProperty("table-list")+","+tableName);
+			for(int i=0;i<arr.length;i++){
+				if(arr[i].trim().equals(tableName)){
+					equal = true;
+					break;
 				}
+			}
+			if(!equal){
+				props.setProperty("table-list", props.getProperty("table-list")+","+tableName);
 			}
 		}else{
 			props.setProperty("table-list", tableName);
@@ -264,7 +268,6 @@ public class TableExecute {
 	}
 	
 	public List<String> readTable() throws FileNotFoundException, IOException{
-		Properties props = new Properties();
 		String [] temp = {};
 		List<String> listTable = new ArrayList<String>();
 		props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName ));
