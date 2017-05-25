@@ -114,7 +114,7 @@ public class TableExecute {
 		return valueByPKey;
 	}
 	
-	public void updateRow(Enumeration<String> enu, String idEdit, ServletRequest request) throws SQLException{
+	public int updateRow(Enumeration<String> enu, String idEdit, ServletRequest request) throws SQLException{
 	    int i = 0;
 		String sql = "UPDATE " + tableName + " SET ";
 		
@@ -124,40 +124,41 @@ public class TableExecute {
 	        
 	        if (parameterValue != request.getParameter("idEdit") && parameterValue != tableName){
 		        if(i == 0){
-				sql += parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");
-			}else{
-				sql +=", " + parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
-			}
-			i++;
-			}
+		        	sql += parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");
+				}else{
+					sql +=", " + parameterName + " = " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
+				}
+				i++;
+				}
 	    	}
 	    
 		sql +=  " WHERE " + getPrimaryKey() + " = " + "'" + idEdit + "'";
 		ps = myConn.prepareStatement(sql);
-		ps.executeUpdate();
+		rowsAffected = ps.executeUpdate();
+		return rowsAffected;
 	}
 	
-	public void addRow(Enumeration<String> enu, ServletRequest request) throws SQLException{
+	public int addRow(Enumeration<String> enu, ServletRequest request) throws SQLException{
 	    int i = 0;
 		String sql = "INSERT INTO " + tableName + " VALUES (";
-		
-	    while (enu.hasMoreElements()) {
+
+		while (enu.hasMoreElements()) {
 	        String parameterName = (String) enu.nextElement();
 	        String parameterValue = request.getParameter(parameterName);
 	        
 	        if (parameterValue != tableName){
-			if(i == 0){
-		        	sql += (parameterValue == "" ? null : "'" + parameterValue + "'");
-			}else{
-				sql +=", " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
+				if(i == 0){
+			        	sql += (parameterValue == "" ? null : "'" + parameterValue + "'");
+				}else{
+					sql +=", " + (parameterValue == "" ? null : "'" + parameterValue + "'");	
+				}
+				i++;
 			}
-			i++;
-			}
-	    	}
-	    
+    	}
 	    sql += ")";
 		ps = myConn.prepareStatement(sql);
-		ps.executeUpdate();
+		rowsAffected = ps.executeUpdate();
+		return rowsAffected;
 	}
 	
 	public int numPrimaryKey() throws SQLException{
