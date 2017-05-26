@@ -14,6 +14,8 @@
 	List<String> columns;
 	List<String> valueByPKey;
 	List<String> typeColumns;
+	List<Integer> sizeColumns;
+	List<Integer> columnsIsNullable;
 	
 	tableExecute.getConnection();
 
@@ -50,41 +52,53 @@
 <%@ include file="js.jsp" %>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		jQuery.validator.addMethod("accept", function(value, element, param) {
-			  return value.match(new RegExp("." + param + "$"));
-		});
-		$("#editRow").validate({
-		    rules: {
-		   	<%
-		   	columns = tableExecute.getColumns();
-		   	typeColumns = tableExecute.getType(tableName);
-			   	for(int i = 0; i < columns.size(); i++) {
-			   		if (typeColumns.get(i).equals("INT")){%>
-				   		<%=columns.get(i) %>: {
-			   			    number: true,
-			   			},
-			   		<%} else { %>
-			   			<%=columns.get(i) %>: { accept: "[a-zA-Z]+" },
-					<%}
-				}%>
-		    },
-		    messages: {
-		    	<%
-		    	columns = tableExecute.getColumns();
-		    	typeColumns = tableExecute.getType(tableName);
-		    	for(int i = 0; i < columns.size(); i++) {
-		    		if (typeColumns.get(i).equals("INT")){%>
-		    			<%=columns.get(i) %>: "only numbers",
-					<%} else { %>
-						<%=columns.get(i) %>: "only character",
-					<%}
-	    		}%>
-		    },
-		    submitHandler: function(form) {
-		      form.submit();
-		    }
-		  });
+$(document).ready(function(){
+	jQuery.validator.addMethod("accept", function(value, element, param) {
+		  return value.match(new RegExp("." + param + "$"));
+	});
+	$("#editRow").validate({
+	    rules: {
+	   	<%
+	   	columns = tableExecute.getColumns();
+	   	typeColumns = tableExecute.getType(tableName);
+	   	sizeColumns = tableExecute.getColumnsSize(tableName);
+	   	columnsIsNullable = tableExecute.isColumnsNullable(tableName);
+		   	for(int i = 0; i < columns.size(); i++) { %>
+		   		<%=columns.get(i) %>: {
+		   		<%if (typeColumns.get(i).equals("INT")){%>
+		   		    number: true,
+		   		<%} else { %> 
+		   			accept: "[a-zA-Z]+",
+		   		<%} %>
+	   			 	maxlength: <%=sizeColumns.get(i)%>,
+	   			 <%if (columnsIsNullable.get(i) == 0){%>
+	   				required: true
+		   		<%} else { %> 
+		   			required: false
+		   		<%} %>		   			
+		   		},
+   			<%} %>
+	    },
+	    messages: {
+	    	<%
+	    	columns = tableExecute.getColumns();
+	    	typeColumns = tableExecute.getType(tableName);
+		   	sizeColumns = tableExecute.getColumnsSize(tableName);
+		   	columnsIsNullable = tableExecute.isColumnsNullable(tableName);
+	    	for(int i = 0; i < columns.size(); i++) { %>
+    			<%=columns.get(i) %>: {
+					<%if (typeColumns.get(i).equals("INT")){%>
+    				number: "only numbers",
+				<%} else { %>
+					accept: "only character",
+				<%} %>
+				},
+    		<%} %>
+	    },
+	    submitHandler: function(form) {
+	      form.submit();
+	    }
+	  });
 	});
 </script>
 <%tableExecute.closeConnection(); %>
