@@ -281,6 +281,28 @@ public class TableExecute {
 		return listTable;
 	}
 	
+	public List<Integer> getColumnsSize(String tableName) throws FileNotFoundException, IOException, SQLException{
+		sizeColumns = new ArrayList<Integer>();
+		meta = myConn.getMetaData();
+		res = meta.getColumns(null, null, tableName, null);
+		
+		while(res.next()){
+			sizeColumns.add(res.getInt("COLUMN_SIZE"));
+		}
+		return sizeColumns;
+	}
+	
+	public List<Integer> isColumnsNullable(String tableName) throws FileNotFoundException, IOException, SQLException{
+		columnsIsNullable = new ArrayList<Integer>();
+		meta = myConn.getMetaData();
+		res = meta.getColumns(null, null, tableName, null);
+		
+		while(res.next()){
+			columnsIsNullable.add(res.getInt("NULLABLE"));
+		}
+		return columnsIsNullable;
+	}
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		TableExecute ut = new TableExecute("city");
 		
