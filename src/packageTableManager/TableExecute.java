@@ -5,15 +5,21 @@ import java.sql.*;
 import java.util.*;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServlet;
 
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
-public class TableExecute {
+public class TableExecute extends HttpServlet{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static List<String> columns;
-	private static List<String> value;
 	private static List<String> valueByPKey;
+	private static List<Integer> sizeColumns;
+	private static List<Integer> columnsIsNullable;
 	private String tableName;
 	private String pKey;
 	private static List<String> type;
@@ -32,9 +38,10 @@ public class TableExecute {
 	
 	public static int count;
 	public static int numKey;
-	
-	private File fileName = new File("properties.properties");
-	Properties props = new Properties();
+	public static int rowsAffected;
+		
+	public static File fileName = new File("src/properties.properties");
+	public static Properties props = new Properties();
 	
 	
 	public TableExecute(String tableName) {
@@ -52,7 +59,7 @@ public class TableExecute {
 		String sql = "select * from " + tableName + " limit 1";
 		myRs = myStmt.executeQuery(sql);
 		data = (ResultSetMetaData) myRs.getMetaData();
-		int numColonne = data.getColumnCount();
+		int numColonne = data.getColumnCount();		
 		return numColonne;
 	}
 	
@@ -68,7 +75,7 @@ public class TableExecute {
 		return columns;
 	}
 	
-	public List<String> getValue() throws SQLException{
+	/*public List<String> getValue() throws SQLException{
 		value = new ArrayList<String>();
 		String sql = "select * from " + tableName;
 		myRs = myStmt.executeQuery(sql);
@@ -79,6 +86,22 @@ public class TableExecute {
 			}
 		}
 		return value;
+	}*/
+	
+	public List<List<String>> getAllRows() throws SQLException{
+		List<List<String>> row = new ArrayList<List<String>>();
+		List<String> temp;
+		String sql = "select * from " + tableName;
+		myRs = myStmt.executeQuery(sql);
+		
+		while (myRs.next()) {
+				temp = new ArrayList<String>();
+			for (int i=1;i<=columns.size();i++){
+				temp.add(myRs.getString(i));
+			}
+			row.add(temp);
+		}
+		return row;
 	}
 	
 	public int numRow() throws SQLException{
@@ -161,8 +184,9 @@ public class TableExecute {
 		return rowsAffected;
 	}
 	
+	
 	public int numPrimaryKey() throws SQLException{
-		numKey = 0;
+		numKey=0;
 		meta = myConn.getMetaData();
 		myRs = meta.getPrimaryKeys(null, null, tableName);
 		while (myRs.next()){
@@ -214,9 +238,9 @@ public class TableExecute {
         props.store(out, "properties tables");
 	}*/
 	
-	public void writeProperties() throws FileNotFoundException, IOException{		
+	/*public void writeProperties() throws FileNotFoundException, IOException{		
 		if(fileName.exists()){
-			props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName));
+			props.load(new FileInputStream(fileName));
 		}
 
 		boolean equal = false;
@@ -236,8 +260,43 @@ public class TableExecute {
 			props.setProperty("table-list", tableName);
 		}
 		
-		OutputStream out = new FileOutputStream("C:/Users/slazeter/workspace/TableManager/"+fileName);
+		OutputStream out = new FileOutputStream(fileName);
         props.store(out, "properties tables");
+	}*/
+	
+	
+	public void writeProperties(String filename) throws FileNotFoundException, IOException{
+		File fileName = new File(filename);
+		
+		try
+        {
+			if (fileName.exists()) {
+				props.load(new FileInputStream(filename));
+			}
+			
+            boolean equal = false;
+            if(!UtilsFunction.isEmpty(props.getProperty("table-list"))){
+    			String [] arr = props.getProperty("table-list").split(",");
+    			
+    			for(int i=0;i<arr.length;i++){
+    				if(arr[i].trim().equals(tableName)){
+    					equal = true;
+    					break;
+    				}
+    			}
+    			if(!equal){
+    				props.setProperty("table-list", props.getProperty("table-list")+","+tableName);
+    			}
+    		}else{
+    			props.setProperty("table-list", tableName);
+    		}
+    		
+    		OutputStream out = new FileOutputStream(fileName);
+            props.store(out, "properties tables");
+            
+        }catch (Exception e) {
+        	e.printStackTrace();
+		}
 	}
 	
 	public List<String> getType(String tableName) throws FileNotFoundException, IOException, SQLException{
@@ -251,35 +310,23 @@ public class TableExecute {
 		return type;
 	}
 	
-	
-	public List<List<String>> getAllRows() throws SQLException{
-		List<List<String>> row = new ArrayList<List<String>>();
-		List<String> temp;
-		String sql = "select * from " + tableName;
-		myRs = myStmt.executeQuery(sql);
-		
-		while (myRs.next()) {
-				temp = new ArrayList<String>();
-			for (int i=1;i<=columns.size();i++){
-				temp.add(myRs.getString(i));
-			}
-			row.add(temp);
-		}
-		return row;
-	}
-	
-	public List<String> readTable() throws FileNotFoundException, IOException{
+	public List<String> readTable(String filename) throws FileNotFoundException, IOException{
 		String [] temp = {};
 		List<String> listTable = new ArrayList<String>();
-		props.load(new FileInputStream("C:/Users/slazeter/workspace/TableManager/"+fileName ));
-		if(!props.getProperty("table-list").equals("")){
-			temp = props.getProperty("table-list").split(",");
+		try{
+			props.load(new FileInputStream(filename));
+			if(!props.getProperty("table-list").equals("")){
+				temp = props.getProperty("table-list").split(",");
+			}
+			for(int i = 0; i < temp.length; i++){
+		       	listTable.add(temp[i].trim());
+		    }
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		for(int i = 0; i < temp.length; i++){
-	       	listTable.add(temp[i].trim());
-	    }
 		return listTable;
 	}
+	
 	
 	public List<Integer> getColumnsSize(String tableName) throws FileNotFoundException, IOException, SQLException{
 		sizeColumns = new ArrayList<Integer>();
@@ -303,20 +350,26 @@ public class TableExecute {
 		return columnsIsNullable;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		TableExecute ut = new TableExecute("city");
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, FileNotFoundException, IOException {
+		TableExecute ut = new TableExecute("e");
+				
+		//ut.getConnection();
+		//ut.getColumns();
 		
-		ut.getConnection();
-		ut.getColumns();
-		ut.getValue();
+		//List<List<String>> w = new ArrayList<List<String>>();
+		//w=ut.getAllRows();
+		//System.out.println(w);
 		
-		System.out.println("\nlista colonne: ");
-		System.out.println(columns.size());
+		//System.out.println(ut.numPrimaryKey());
 		
-		for(int i = 0; i < columns.size(); i++) {
-		    System.out.println(columns.get(i));
-		}
+		//System.out.println(ut.readTable());
+		
+		//System.out.println(fileName.exists());
+		
+		ut.writeProperties("C:/Users/slazeter/workspace/TableManager/properties.properties");
+				
 	}
 	
 	
 }
+
