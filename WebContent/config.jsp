@@ -7,14 +7,16 @@
 	List<String> columns = null;
 	List<String> type = null;
 	
-	request.getSession();
-	String tableName = (String) session.getAttribute("TableName");
-	TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
+	String location = getServletContext().getInitParameter("configuration");
+	
+	String tableName = UtilsFunction.notNull(request.getParameter("tableName"), "");
+	TableExecute tableExecute = new TableExecute(tableName);
 	
 	if(!UtilsFunction.isEmpty(tableName)){
 		tableExecute.getConnection();
 		columns = tableExecute.getColumns();
 		type = tableExecute.getType(tableName);
+		tableExecute.writeProperties(location);
 	}
 %>
 
@@ -32,8 +34,6 @@
 <% for (int i=0;i<columns.size();i++){ %>
 	<p><%=i+1 %>° column: <%=columns.get(i) %>, type: <%=type.get(i) %></p>
 <% } %>
-
-<button type="submit" onclick="window.location.href='default.jsp'">Go back</button>
 </div>
 
 <% }
@@ -41,6 +41,10 @@
 		tableExecute.closeConnection();
 	}
 %>
+
+<div class="col-xs-12 top15">
+<button type="submit" onclick="window.location.href='default.jsp'">Go back</button>
+</div>
 
 <%@ include file="js.jsp" %>
 <script type="text/javascript">
@@ -50,8 +54,9 @@
 	
 	function getTable(){
 		$("#button-tableName").html("<div class=\"left15 load\"><img src=\"images/load.gif\" class=\"img-responsive\"/></div>");
-		setTimeout(function(){$("#form-nameTable").submit();}, 2000);
-		<% tableExecute.writeProperties(); %>
+		if($("#tableName").val() != ""){
+			setTimeout(function(){$("#form-nameTable").submit();}, 2000);
+		}
 	}
 </script>
 </body>
