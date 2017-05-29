@@ -4,4 +4,10 @@
   <welcome-file-list>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+
+  
+  <context-param>
+        <param-name>configuration</param-name>
+        <param-value>C:\Users\slazeter\workspace\TableManager\properties.properties</param-value>
+    </context-param>
 </web-app>
