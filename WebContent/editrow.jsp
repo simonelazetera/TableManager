@@ -18,7 +18,7 @@
 	List<Integer> sizeColumns;
 	List<Integer> columnsIsNullable;
 	
-	tableExecute.getConnection();
+	tableExecute.getConnection(dbUrl,user,pass);
 
 	try{	
 		String pkey = "";
