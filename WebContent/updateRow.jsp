@@ -4,6 +4,9 @@
 </head>
 <body>
 <%
+String dbUrl = getServletContext().getInitParameter("dbUrl");
+String user = getServletContext().getInitParameter("user");
+String pass = getServletContext().getInitParameter("pass");
 request.getSession();
 String tableName = (String) session.getAttribute("TableName");
 TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
