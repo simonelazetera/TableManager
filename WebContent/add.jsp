@@ -4,6 +4,9 @@
 </head>
 <body>
 <%
+String dbUrl = getServletContext().getInitParameter("dbUrl");
+String user = getServletContext().getInitParameter("user");
+String pass = getServletContext().getInitParameter("pass");
 String idEdit = request.getParameter("idEdit");
 
 request.getSession();
