@@ -29,7 +29,7 @@
 		for(int i = 0; i < columns.size(); i++) {
 			if(!columns.get(i).equals(pkey)) {
 %>		
-		<%=columns.get(i) %>: <input type="text" name="<%=columns.get(i) %>" value="<%=(valueByPKey.get(i) == null ? " " : valueByPKey.get(i)) %>"/><br><br>
+		<%=columns.get(i) %>: <input type="text" name="<%=columns.get(i) %>" value="<%=(valueByPKey.get(i) == null ? "" : valueByPKey.get(i)) %>"/><br><br>
 <%
 			}
 		}
