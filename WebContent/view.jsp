@@ -27,7 +27,7 @@
 		
 		//TableExecute tableExecute = new TableExecute(tableName);
 		
-		tableExecute.getConnection();
+		tableExecute.getConnection(dbUrl,user,pass);
 		columns = tableExecute.getColumns();
 %>
 <div class="col-xs-3 col-sm-2 top20">
