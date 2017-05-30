@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
-public class TableExecute extends HttpServlet{
+public class TableExecute {
 
 	/**
 	 * 
