@@ -10,7 +10,7 @@ request.getSession();
 String tableName = (String) session.getAttribute("TableName");
 TableExecute tableExecute = (TableExecute) session.getAttribute("TableExecute");
 
-tableExecute.getConnection();
+tableExecute.getConnection(dbUrl,user,pass);
 int rowsAffected = 0; 
 
 try{
