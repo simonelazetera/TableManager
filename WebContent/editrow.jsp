@@ -7,6 +7,9 @@
 	<h1 class="pad-left15">Edit Row</h1>
 	<form id="editRow" action="updateRow.jsp" method="post" class="pad-left15">
 <%
+	String dbUrl = getServletContext().getInitParameter("dbUrl");
+	String user = getServletContext().getInitParameter("user");
+	String pass = getServletContext().getInitParameter("pass");
 	String idEdit = request.getParameter("idEdit");
 	request.getSession();
 	String tableName = (String) session.getAttribute("TableName");
