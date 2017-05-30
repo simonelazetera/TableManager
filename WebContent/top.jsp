@@ -9,3 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/custom.css" rel="stylesheet">
+    
+    
+<%
+	String dbUrl = getServletContext().getInitParameter("dbUrl");
+	String user = getServletContext().getInitParameter("user");
+	String pass = getServletContext().getInitParameter("pass");
+%>
