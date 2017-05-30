@@ -4,6 +4,9 @@
 <body>
 
 <%
+	String dbUrl = getServletContext().getInitParameter("dbUrl");
+	String user = getServletContext().getInitParameter("user");
+	String pass = getServletContext().getInitParameter("pass");
 	List<String> columns;
 
 	request.getSession();
