@@ -64,7 +64,7 @@ $(document).ready(function(){
 		   		<%} else { %> 
 		   			required: false,
 		   		<%} %>	
-		   		<%if (typeColumns.get(i).equals("INT")){%>
+		   		<%if (typeColumns.get(i).equals("INT") || typeColumns.get(i).equals("FLOAT") || typeColumns.get(i).equals("SMALLINT")){%>
 		   		    number: true
 		   		<%} else { %> 
 		   			accept: "[a-zA-Z]+"
