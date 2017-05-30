@@ -6,8 +6,20 @@
   </welcome-file-list>
 
   
-  <context-param>
+  	<context-param>
         <param-name>configuration</param-name>
-        <param-value>C:\Users\slazeter\workspace\TableManager\properties.properties</param-value>
+        <param-value>C:\Users\slazeter\workspace\TableManager\configuration.properties</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/world</param-value>
+    </context-param>
+    <context-param>
+        <param-name>user</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>root</param-value>
     </context-param>
 </web-app>
