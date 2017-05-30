@@ -32,10 +32,6 @@ public class TableExecute {
 	private DatabaseMetaData meta = null;
 	private PreparedStatement ps = null;
 	
-	private String dbUrl = "jdbc:mysql://localhost:3306/world";
-	private String user = "root";
-	private String pass = "root";
-	
 	public static int count;
 	public static int numKey;
 	public static int rowsAffected;
