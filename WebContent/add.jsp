@@ -16,19 +16,27 @@ int rowsAffected = 0;
 try{
 	Enumeration<String> enu = request.getParameterNames();
 	rowsAffected = tableExecute.addRow(enu, request);
-}catch (Exception e) {
-	e.printStackTrace();
-}
-%>
+	%>
 	<div class="col-xs-6 top20">
 	<%if (rowsAffected > 0){ %>
-		<form id="add" action="addSuccess.jsp" method="POST">
+		<form id="update" action="addSuccess.jsp" method="POST">
+			<input type="hidden" name="idEdit" value="<%=idEdit %>" />
 		</form>
-	<%} else { %>
-		<form id="add" action="addError.jsp" method="POST">
-		</form>
-	<%} %>
+	<%} %>	
 	</div>
+<%
+}catch (Exception e) {
+	String errorMessage = e.getMessage();
+%>
+	<div class="col-xs-6 top20">
+		<h1>Add error</h1>
+        <p><%=errorMessage %></p>
+        <form action="addRow.jsp" method="POST">
+			<input type="hidden" name="idEdit" value="<%=idEdit %>" />
+			<input type="submit" value="Go to the form" />
+		</form>
+     </div>
+<%} %>
 <%@ include file="js.jsp" %>
 <script type="text/javascript">
 $(document).ready(function(){

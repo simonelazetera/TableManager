@@ -59,17 +59,16 @@ $(document).ready(function(){
 	   	columnsIsNullable = tableExecute.isColumnsNullable(tableName);
 		   	for(int i = 0; i < columns.size(); i++) { %>
 		   		<%=columns.get(i) %>: {
+	   			<%if (columnsIsNullable.get(i) == 0){%>
+	   				required: true,
+		   		<%} else { %> 
+		   			required: false,
+		   		<%} %>	
 		   		<%if (typeColumns.get(i).equals("INT")){%>
-		   		    number: true,
+		   		    number: true
 		   		<%} else { %> 
-		   			accept: "[a-zA-Z]+",
+		   			accept: "[a-zA-Z]+"
 		   		<%} %>
-	   			 	maxlength: <%=sizeColumns.get(i)%>,
-	   			 <%if (columnsIsNullable.get(i) == 0){%>
-	   				required: true
-		   		<%} else { %> 
-		   			required: false
-		   		<%} %>		   			
 		   		},
    			<%} %>
 	    },
@@ -81,7 +80,7 @@ $(document).ready(function(){
 		   	columnsIsNullable = tableExecute.isColumnsNullable(tableName);
 	    	for(int i = 0; i < columns.size(); i++) { %>
     			<%=columns.get(i) %>: {
-					<%if (typeColumns.get(i).equals("INT")){%>
+					<%if (typeColumns.get(i).equals("INT") || typeColumns.get(i).equals("FLOAT") || typeColumns.get(i).equals("SMALLINT")){%>
     				number: "only numbers",
 				<%} else { %>
 					accept: "only character",
