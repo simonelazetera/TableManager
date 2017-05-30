@@ -13,7 +13,7 @@
 	TableExecute tableExecute = new TableExecute(tableName);
 	
 	if(!UtilsFunction.isEmpty(tableName)){
-		tableExecute.getConnection();
+		tableExecute.getConnection(dbUrl,user,pass);
 		columns = tableExecute.getColumns();
 		type = tableExecute.getType(tableName);
 		tableExecute.writeProperties(location);
