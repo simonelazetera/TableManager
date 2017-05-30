@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.*;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServlet;
 
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
@@ -236,11 +235,11 @@ public class TableExecute {
 		return type;
 	}
 	
-	public List<String> readTable(String filename) throws FileNotFoundException, IOException{
+	public List<String> readTable(String location) throws FileNotFoundException, IOException{
 		String [] temp = {};
 		List<String> listTable = new ArrayList<String>();
 		try{
-			props.load(new FileInputStream(filename));
+			props.load(new FileInputStream(location));
 			if(!props.getProperty("table-list").equals("")){
 				temp = props.getProperty("table-list").split(",");
 			}
